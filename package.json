@@ -1,0 +1,22 @@
+{
+  "name": "com.gamewarriors.resourcesystem",
+  "version": "0.1.0",
+  "displayName": "Resource System",
+  "description": "This package provide centralized resource management and by specific exist abstractions, can retrive objects such asset bundle, scriptables, variables and etc all over project. this package also contain the resumable download handler",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "dependencies": {
+  },
+  "keywords": [
+    "Asset Management",
+    "Bundle Management",
+    "Resource Management",
+    "Download Manager",
+    "AssetBundle"
+  ],
+  "author": {
+    "name": "Game Warriors",
+    "email": "mahdifada.eddini@outlook.com",
+    "url": "https://www.gamewarriorsstudio.com"
+  }
+}

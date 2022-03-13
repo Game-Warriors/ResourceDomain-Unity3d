@@ -1,0 +1,18 @@
+{
+    "name": "GameWarriors.ResourceDomain.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3f449ce30f6bcaf40b069b8265d4ee2a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
