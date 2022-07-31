@@ -116,7 +116,7 @@ namespace GameWarriors.ResourceDomain.Core
 
         T IVariableDatabase.RequestConfigData<T>(string assetName)
         {
-            var asset = TryGetAssetFromBundle<T>(assetName);
+            T asset = TryGetAssetFromBundle<T>(assetName);
             if (!asset)
                 return Resources.Load<T>(assetName);
             else
@@ -241,41 +241,42 @@ namespace GameWarriors.ResourceDomain.Core
 #if UNITY_EDITOR && DEVELOPMENT
             _downloadContent?.Initialization(data.TestServerAddess, data.IsAutoDonwload);
 #else
-            _downloadContent?.Initialization(data.MainServerAddess, data.IsAutoDonwload);
+            _downloadContent?.Initialization(data?.MainServerAddess, data?.IsAutoDonwload ?? false);
 #endif
             _persistSpriteTable = new Dictionary<string, Sprite>();
-            int length = data.PersistSprites?.Length ?? 0;
+            int length = data?.PersistSprites?.Length ?? 0;
             for (int i = 0; i < length; ++i)
             {
                 _persistSpriteTable.Add(data.PersistSprites[i].name, data.PersistSprites[i]);
             }
 
-            length = data.AssetObjects?.Length ?? 0;
+            length = data?.AssetObjects?.Length ?? 10;
             _objectCollectionTable = new Dictionary<string, UnityEngine.Object>(length);
-            _variableTable = new Dictionary<string, IConvertible>(data.StringVars?.Length ?? 0 + data.FloatVars?.Length ?? 0 + data.IntVars?.Length ?? 0);
+            _variableTable = new Dictionary<string, IConvertible>(data?.StringVars?.Length ?? 0 + data?.FloatVars?.Length ?? 0 + data?.IntVars?.Length ?? 0);
             for (int i = 0; i < length; ++i)
             {
                 _objectCollectionTable.Add(data.AssetObjects[i].name, data.AssetObjects[i]);
             }
 
-            length = data.StringVars?.Length ?? 0;
+            length = data?.StringVars?.Length ?? 10;
             for (int i = 0; i < length; ++i)
             {
                 _variableTable.Add(data.StringVars[i].Name, data.StringVars[i].Variable);
             }
 
-            length = data.FloatVars?.Length ?? 0;
+            length = data?.FloatVars?.Length ?? 10;
             for (int i = 0; i < length; ++i)
             {
                 _variableTable.Add(data.FloatVars[i].Name, data.FloatVars[i].Variable);
             }
 
-            length = data.IntVars?.Length ?? 0;
+            length = data?.IntVars?.Length ?? 0;
             for (int i = 0; i < length; ++i)
             {
                 _variableTable.Add(data.IntVars[i].Name, data.IntVars[i].Variable << _resourceConfig.ShiftCount);
             }
-            Resources.UnloadAsset(data);
+            if (data)
+                Resources.UnloadAsset(data);
             --_counter;
         }
 
