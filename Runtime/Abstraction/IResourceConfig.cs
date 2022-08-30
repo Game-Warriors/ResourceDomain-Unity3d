@@ -5,6 +5,5 @@ namespace GameWarriors.ResourceDomain.Abstraction
     {
         int ShiftCount { get; }
         bool IsPreloadBundles { get; }
-        bool IsUseDefaultDownloadContent { get; }
     }
 }

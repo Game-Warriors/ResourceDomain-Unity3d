@@ -1,6 +1,7 @@
 ﻿using GameWarriors.ResourceDomain.Abstraction;
 using GameWarriors.ResourceDomain.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -29,8 +30,7 @@ namespace GameWarriors.ResourceDomain.Core
         public ResourceSystem(IContentDownloder downloadContentHandler, IResourceConfig resourceConfig)
         {
             _resourceConfig = resourceConfig;
-            if (downloadContentHandler == null && resourceConfig.IsUseDefaultDownloadContent)
-                _downloadContent = new DefaultContentDownloader(3);
+            _downloadContent = downloadContentHandler;
             LoadAssetBundles();
             LoadResourceData();
         }
@@ -47,6 +47,12 @@ namespace GameWarriors.ResourceDomain.Core
             {
                 await Task.Delay(100);
             }
+        }
+
+        [UnityEngine.Scripting.Preserve]
+        public IEnumerator WaitForLoadingCoroutine()
+        {
+            yield return new WaitUntil(() => IsLoad);
         }
 
         Sprite ISpriteDatabase.GetSpriteFromCollection(string key, int index)
