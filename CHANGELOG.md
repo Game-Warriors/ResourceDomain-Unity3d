@@ -1,4 +1,7 @@
 
+  version : 0.1.3
+  add color collection to resource data.
+
   version : 0.1.2
   add WaitForLoadingCoroutine method to compatible to enumerable service collection.
 
