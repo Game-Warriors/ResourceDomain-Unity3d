@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GameWarriors.ResourceDomain.Data
 {
     [Serializable]
-    public struct StringVariable 
+    public struct StringVariable
     {
         [SerializeField]
         private string _name;
@@ -13,6 +13,12 @@ namespace GameWarriors.ResourceDomain.Data
 
         public string Name => _name;
         public string Variable => _variable;
+
+        public StringVariable(string name, string value)
+        {
+            _name = name;
+            _variable = value;
+        }
     }
 
     [Serializable]
@@ -25,6 +31,12 @@ namespace GameWarriors.ResourceDomain.Data
 
         public string Name => _name;
         public float Variable => _variable;
+
+        public FloatVariable(string name, float variable)
+        {
+            _name = name;
+            _variable = variable;
+        }
     }
 
     [Serializable]
@@ -37,6 +49,12 @@ namespace GameWarriors.ResourceDomain.Data
 
         public string Name => _name;
         public int Variable => _variable;
+
+        public IntVariable(string name, int variable)
+        {
+            _name = name;
+            _variable = variable;
+        }
     }
 
     //[Serializable]
@@ -97,23 +115,31 @@ namespace GameWarriors.ResourceDomain.Data
 
         public bool IsAutoDonwload { get => _isAutoDownload; set => _isAutoDownload = value; }
 
-        public ResourceData(UnityEngine.Object[] assetObjects, StringVariable[] stringVariables, FloatVariable[] floatVariables, IntVariable[] intVariables, Sprite[] persistSprites)
+        public void SetAssetObjects(UnityEngine.Object[] assetObjects)
         {
             _assetObjects = assetObjects;
+        }
+
+        public void SetStringVariables(StringVariable[] stringVariables)
+        {
             _stringVars = stringVariables;
+        }
+
+        public void SetFloatVariable(FloatVariable[] floatVariables)
+        {
             _floatVars = floatVariables;
+        }
+
+        public void SetIntVariable(IntVariable[] intVariables)
+        {
             _intVars = intVariables;
+        }
+
+        public void SetSpriteAssets(Sprite[] persistSprites)
+        {
             _persistSprites = persistSprites;
         }
 
-        public void SetResourceAssets(UnityEngine.Object[] assetObjects, StringVariable[] stringVariables, FloatVariable[] floatVariables, IntVariable[] intVariables, Sprite[] persistSprites)
-        {
-            _assetObjects = assetObjects;
-            _stringVars = stringVariables;
-            _floatVars = floatVariables;
-            _intVars = intVariables;
-            _persistSprites = persistSprites;
-        }
 
         public void SetServerAddress(string mainServerAddress, string testServerAddress)
         {
