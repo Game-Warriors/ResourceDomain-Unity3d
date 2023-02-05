@@ -1,4 +1,7 @@
 
+  version : 0.1.5
+  add remote data syncing to variable database and fix search bug in editor
+
   version : 0.1.4
   improve resource system editor ui and add search feature and separate resource sections
 

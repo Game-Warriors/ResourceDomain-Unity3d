@@ -81,14 +81,14 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _assetObjects.Count;
             for (int i = 0; i < length; ++i)
             {
-                if (_assetObjects[i] != null && _assetObjects[i].name.Contains(newPattern))
+                if (_assetObjects[i] != null && _assetObjects[i].name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
                     _searchIndex.Add(i);
             }
         }
 
         public void ClearSearchPatten()
         {
-            _searchIndex.Clear();
+            _searchIndex?.Clear();
             SearchPattern = string.Empty;
         }
     }

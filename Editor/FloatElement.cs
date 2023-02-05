@@ -76,14 +76,14 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _floatVariables.Count;
             for (int i = 0; i < length; ++i)
             {
-                if (_floatVariables[i].Name.Contains(newPattern))
+                if (_floatVariables[i].Name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
                     _searchIndex.Add(i);
             }
         }
 
         public void ClearSearchPatten()
         {
-            _searchIndex.Clear();
+            _searchIndex?.Clear();
             SearchPattern = string.Empty;
         }
     }

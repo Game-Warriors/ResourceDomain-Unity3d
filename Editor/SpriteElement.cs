@@ -75,14 +75,14 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _spriteAssets.Count;
             for (int i = 0; i < length; ++i)
             {
-                if (_spriteAssets[i] != null &&_spriteAssets[i].name.Contains(newPattern))
+                if (_spriteAssets[i] != null &&_spriteAssets[i].name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
                     _searchIndex.Add(i);
             }
         }
 
         public void ClearSearchPatten()
         {
-            _searchIndex.Clear();
+            _searchIndex?.Clear();
             SearchPattern = string.Empty;
         }
     }

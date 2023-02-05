@@ -13,6 +13,7 @@ namespace GameWarriors.ResourceDomain.Core
     {
         private readonly IResourceConfig _resourceConfig;
         private readonly IContentDownloder _downloadContent;
+        private readonly IRemoteDataHandler _remoteData;
         private Dictionary<string, BundleItem> _bundlesTable;
         private Dictionary<string, BundleItem> _assetBundleObjectTable;
         private Dictionary<string, UnityEngine.Object> _objectCollectionTable;
@@ -27,10 +28,11 @@ namespace GameWarriors.ResourceDomain.Core
 
 
         [UnityEngine.Scripting.Preserve]
-        public ResourceSystem(IContentDownloder downloadContentHandler, IResourceConfig resourceConfig)
+        public ResourceSystem(IRemoteDataHandler remoteDataHandler, IContentDownloder downloadContentHandler, IResourceConfig resourceConfig)
         {
             _resourceConfig = resourceConfig;
             _downloadContent = downloadContentHandler;
+            _remoteData = remoteDataHandler;
             LoadAssetBundles();
             LoadResourceData();
         }
@@ -95,6 +97,11 @@ namespace GameWarriors.ResourceDomain.Core
         {
             if (_variableTable.TryGetValue(variableKey, out var convertible))
             {
+                if (_remoteData != null && _remoteData.TryGetValue(variableKey, convertible.GetTypeCode(), out var remoteConvertible))
+                {
+                    convertible = remoteConvertible;
+                }
+
                 if (convertible is int)
                 {
                     IConvertible tmp = (int)convertible >> _resourceConfig.ShiftCount;
@@ -104,12 +111,6 @@ namespace GameWarriors.ResourceDomain.Core
             }
             return default;
         }
-
-        //public void LoadConfigDataAsync(string assetName, Action<ScriptableObject> onAssetLoad)
-        //{
-        //    var operation = RequestConfigDataAsync(assetName);
-        //    operation.completed += (input) => OnLoadAssetDone(input, onAssetLoad);
-        //}
 
         AsyncOperation IVariableDatabase.RequestConfigDataAsync(string assetName)
         {
@@ -270,6 +271,7 @@ namespace GameWarriors.ResourceDomain.Core
                 _variableTable.Add(data.StringVars[i].Name, data.StringVars[i].Variable);
             }
 
+
             length = data?.FloatVars?.Length ?? 10;
             for (int i = 0; i < length; ++i)
             {
@@ -283,6 +285,7 @@ namespace GameWarriors.ResourceDomain.Core
             }
             if (data)
                 Resources.UnloadAsset(data);
+            _remoteData?.RegisterData(_variableTable);
             --_counter;
         }
 
@@ -346,8 +349,6 @@ namespace GameWarriors.ResourceDomain.Core
                 PlayerPrefs.Save();
             }
         }
-
-
 
         private uint RetrieveCrcFromManifest(string fullPath)
         {
@@ -502,8 +503,5 @@ namespace GameWarriors.ResourceDomain.Core
             }
             return null;
         }
-
-
-
     }
 }
