@@ -1,3 +1,5 @@
+  version : 0.1.6
+  fix return remote value bug
 
   version : 0.1.5
   add remote data syncing to variable database and fix search bug in editor

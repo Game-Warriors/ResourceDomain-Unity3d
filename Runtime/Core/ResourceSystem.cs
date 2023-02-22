@@ -100,6 +100,7 @@ namespace GameWarriors.ResourceDomain.Core
                 if (_remoteData != null && _remoteData.TryGetValue(variableKey, convertible.GetTypeCode(), out var remoteConvertible))
                 {
                     convertible = remoteConvertible;
+                    return (T)(convertible);
                 }
 
                 if (convertible is int)
