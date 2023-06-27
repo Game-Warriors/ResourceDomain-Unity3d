@@ -1,3 +1,6 @@
+  version : 0.1.7
+  fix compatibility to old unity dotnet
+
   version : 0.1.6
   fix return remote value bug
 

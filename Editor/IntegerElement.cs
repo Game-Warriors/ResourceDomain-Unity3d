@@ -74,7 +74,11 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _intVariables.Count;
             for (int i = 0; i < length; ++i)
             {
+#if UNITY_2021_1_OR_NEWER
                 if (_intVariables[i].Name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
+#else
+                if (_intVariables[i].Name.Contains(newPattern))
+#endif
                     _searchIndex.Add(i);
             }
         }

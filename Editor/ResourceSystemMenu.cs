@@ -3,6 +3,7 @@ using System.IO;
 using System.Resources;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GameWarriors.ResourceDomain.Editor
 {
@@ -112,7 +113,8 @@ namespace GameWarriors.ResourceDomain.Editor
         private void DrawSearchField(IResourceTabElement element)
         {
             GUILayout.BeginHorizontal();
-            string newPattern = EditorGUILayout.TextField("Search Name : ", element.SearchPattern);
+            GUILayout.Label("Search Name : ", GUILayout.Width(90));
+            string newPattern = GUILayout.TextField(element.SearchPattern);
             if (newPattern != element.SearchPattern)
             {
                 element.ApplySearchPatten(newPattern);

@@ -1,4 +1,5 @@
 using GameWarriors.ResourceDomain.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -75,7 +76,11 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _spriteAssets.Count;
             for (int i = 0; i < length; ++i)
             {
-                if (_spriteAssets[i] != null &&_spriteAssets[i].name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
+#if UNITY_2021_1_OR_NEWER
+                if (_spriteAssets[i] != null && _spriteAssets[i].name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
+#else
+                if (_spriteAssets[i] != null &&_spriteAssets[i].name.Contains(newPattern))
+#endif
                     _searchIndex.Add(i);
             }
         }

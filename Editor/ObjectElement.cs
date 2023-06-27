@@ -81,7 +81,11 @@ namespace GameWarriors.ResourceDomain.Editor
             int length = _assetObjects.Count;
             for (int i = 0; i < length; ++i)
             {
+#if UNITY_2021_1_OR_NEWER
                 if (_assetObjects[i] != null && _assetObjects[i].name.Contains(newPattern, System.StringComparison.OrdinalIgnoreCase))
+#else
+                if (_assetObjects[i] != null && _assetObjects[i].name.Contains(newPattern))
+#endif
                     _searchIndex.Add(i);
             }
         }
