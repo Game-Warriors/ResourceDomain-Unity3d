@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace GameWarriors.ResourceDomain.Core
 {
-
+    /// <summary>
+    /// The system default download provide downloading content manager class and storing downloaded contents service.
+    /// </summary>
     public class DefaultContentDownloader : IContentDownloder
     {
         private readonly string Save_Download_Path = Application.dataPath;
@@ -41,7 +43,6 @@ namespace GameWarriors.ResourceDomain.Core
             _handlerPool = new Stack<DownloadHandler>();
             _downloadList = new List<string>();
             Parallel_Download_Count = parrallelDownloadCount;
-
         }
 
         public void Initialization(string serverAddress, bool isAutoDownload)

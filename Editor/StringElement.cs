@@ -12,7 +12,7 @@ namespace GameWarriors.ResourceDomain.Editor
         private List<StringVariable> _stringVariables;
 
         private List<int> _searchIndex;
-        public int Count => IsInSearch ? _searchIndex.Count :( _stringVariables?.Count ?? 0);
+        public int Count => IsInSearch ? _searchIndex.Count : (_stringVariables?.Count ?? 0);
         public bool IsInSearch => !string.IsNullOrEmpty(SearchPattern);
         public string SearchPattern { get; set; }
         public int CurrentIndex { get; private set; }
@@ -20,7 +20,8 @@ namespace GameWarriors.ResourceDomain.Editor
         public StringElement(StringVariable[] stringVariables)
         {
             _stringVariables = new List<StringVariable>();
-            _stringVariables.AddRange(stringVariables);
+            if (stringVariables != null)
+                _stringVariables.AddRange(stringVariables);
         }
 
         public void AddNewElement()

@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace GameWarriors.ResourceDomain.Core
 {
+    /// <summary>
+    /// This class provide all system feature and centralized loading assets. the features is loading and hold persist sprites and other sprite assets, loading and manage defined variables and sync to remote data and manage local and remote asset contents
+    /// </summary>
     public class ResourceSystem : ISpriteDatabase, IVariableDatabase, IContentDatabase
     {
         private readonly IResourceConfig _resourceConfig;
@@ -75,7 +78,7 @@ namespace GameWarriors.ResourceDomain.Core
             return -1;
         }
 
-        SpriteCollection ISpriteDatabase.FindSpriteCollection(string key)
+        ISpriteCollection ISpriteDatabase.FindSpriteCollection(string key)
         {
             if (_objectCollectionTable.TryGetValue(key, out var collection))
                 return ((SpriteCollection)collection);
@@ -111,35 +114,6 @@ namespace GameWarriors.ResourceDomain.Core
                 return (T)convertible;
             }
             return default;
-        }
-
-        AsyncOperation IVariableDatabase.RequestConfigDataAsync(string assetName)
-        {
-            AsyncOperation operation = TryGetAssetFromBundleAsync<ScriptableObject>(assetName);
-            if (operation == null)
-                return Resources.LoadAsync(assetName);
-            else
-                return operation;
-        }
-
-        T IVariableDatabase.RequestConfigData<T>(string assetName)
-        {
-            T asset = TryGetAssetFromBundle<T>(assetName);
-            if (!asset)
-                return Resources.Load<T>(assetName);
-            else
-                return asset;
-        }
-
-        void IVariableDatabase.UnloadConfigData(string assetName)
-        {
-            bool isUnload = TryUnloadAssetFromBundles(assetName, true);
-            if (!isUnload)
-            {
-                var assetObject = Resources.Load(assetName);
-                if (assetObject != null)
-                    Resources.UnloadAsset(assetObject);
-            }
         }
 
         bool IContentDatabase.IsContentLoaded(string contentName)
@@ -190,7 +164,9 @@ namespace GameWarriors.ResourceDomain.Core
             bool isUnload = TryUnloadAssetFromBundles(contentName, unloadAllObjects);
             if (!isUnload)
             {
-                //Resources.un(contentName);
+                UnityEngine.Object assetObject = Resources.Load(contentName);
+                if (assetObject != null)
+                    Resources.UnloadAsset(assetObject);
             }
         }
 
@@ -251,41 +227,51 @@ namespace GameWarriors.ResourceDomain.Core
 #else
             _downloadContent?.Initialization(data?.MainServerAddess, data?.IsAutoDonwload ?? false);
 #endif
-            _persistSpriteTable = new Dictionary<string, Sprite>();
-            int length = data?.PersistSprites?.Length ?? 0;
-            for (int i = 0; i < length; ++i)
-            {
-                _persistSpriteTable.Add(data.PersistSprites[i].name, data.PersistSprites[i]);
-            }
 
-            length = data?.AssetObjects?.Length ?? 10;
-            _objectCollectionTable = new Dictionary<string, UnityEngine.Object>(length);
-            _variableTable = new Dictionary<string, IConvertible>(data?.StringVars?.Length ?? 0 + data?.FloatVars?.Length ?? 0 + data?.IntVars?.Length ?? 0);
-            for (int i = 0; i < length; ++i)
+            if (data != null)
             {
-                _objectCollectionTable.Add(data.AssetObjects[i].name, data.AssetObjects[i]);
-            }
+                int length = data.PersistSprites?.Length ?? 0;
+                _persistSpriteTable = new Dictionary<string, Sprite>(length);
+                for (int i = 0; i < length; ++i)
+                {
+                    _persistSpriteTable.Add(data.PersistSprites[i].name, data.PersistSprites[i]);
+                }
 
-            length = data?.StringVars?.Length ?? 10;
-            for (int i = 0; i < length; ++i)
-            {
-                _variableTable.Add(data.StringVars[i].Name, data.StringVars[i].Variable);
-            }
+                length = data.AssetObjects?.Length ?? 0;
+                _objectCollectionTable = new Dictionary<string, UnityEngine.Object>(length);
+                _variableTable = new Dictionary<string, IConvertible>(data.StringVars?.Length ?? 0 + data.FloatVars?.Length ?? 0 + data.IntVars?.Length ?? 0);
+                for (int i = 0; i < length; ++i)
+                {
+                    _objectCollectionTable.Add(data.AssetObjects[i].name, data.AssetObjects[i]);
+                }
+
+                length = data.StringVars?.Length ?? 0;
+                for (int i = 0; i < length; ++i)
+                {
+                    _variableTable.Add(data.StringVars[i].Name, data.StringVars[i].Variable);
+                }
 
 
-            length = data?.FloatVars?.Length ?? 10;
-            for (int i = 0; i < length; ++i)
-            {
-                _variableTable.Add(data.FloatVars[i].Name, data.FloatVars[i].Variable);
-            }
+                length = data.FloatVars?.Length ?? 0;
+                for (int i = 0; i < length; ++i)
+                {
+                    _variableTable.Add(data.FloatVars[i].Name, data.FloatVars[i].Variable);
+                }
 
-            length = data?.IntVars?.Length ?? 0;
-            for (int i = 0; i < length; ++i)
-            {
-                _variableTable.Add(data.IntVars[i].Name, data.IntVars[i].Variable << _resourceConfig.ShiftCount);
-            }
-            if (data)
+                length = data.IntVars?.Length ?? 0;
+                for (int i = 0; i < length; ++i)
+                {
+                    _variableTable.Add(data.IntVars[i].Name, data.IntVars[i].Variable << _resourceConfig.ShiftCount);
+                }
                 Resources.UnloadAsset(data);
+            }
+            else
+            {
+                _persistSpriteTable = new Dictionary<string, Sprite>(0);
+                _objectCollectionTable = new Dictionary<string, UnityEngine.Object>(0);
+                _variableTable = new Dictionary<string, IConvertible>(0);
+            }
+
             _remoteData?.RegisterData(_variableTable);
             --_counter;
         }
@@ -444,7 +430,7 @@ namespace GameWarriors.ResourceDomain.Core
 
         private AssetBundleRequest TryGetAssetFromBundleAsync<T>(string assetName) where T : UnityEngine.Object
         {
-            if (_assetBundleObjectTable == null)
+            if (_assetBundleObjectTable == null || _assetBundleObjectTable.Count < 1)
                 return null;
             assetName = assetName.ToLower();
             if (_assetBundleObjectTable.TryGetValue(assetName, out var bundle) && bundle != null && bundle.IsBundleLoad)
@@ -456,6 +442,9 @@ namespace GameWarriors.ResourceDomain.Core
 
         private bool TryUnloadAssetFromBundles(string assetName, bool unloadAllObjects)
         {
+            if (_assetBundleObjectTable == null || _assetBundleObjectTable.Count < 1)
+                return false;
+
             assetName = assetName.ToLower();
             if (_assetBundleObjectTable.TryGetValue(assetName, out var bundleItem) && bundleItem.Bundle != null)
             {

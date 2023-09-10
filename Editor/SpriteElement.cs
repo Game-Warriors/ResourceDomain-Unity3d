@@ -22,7 +22,8 @@ namespace GameWarriors.ResourceDomain.Editor
         public SpriteElement(Sprite[] sprites)
         {
             _spriteAssets = new List<Sprite>();
-            _spriteAssets.AddRange(sprites);
+            if (sprites != null)
+                _spriteAssets.AddRange(sprites);
         }
 
         public void AddNewElement()

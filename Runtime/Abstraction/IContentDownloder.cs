@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GameWarriors.ResourceDomain.Abstraction
 {
+    /// <summary>
+    /// The base abstraction for downloadable content handler object
+    /// </summary>
     public interface IContentDownloder
     {
         int DownloadTableCount { get; }

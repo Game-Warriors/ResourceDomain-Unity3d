@@ -21,7 +21,8 @@ namespace GameWarriors.ResourceDomain.Editor
         {
             _searchIndex?.Clear();
             _assetObjects = new List<Object>();
-            _assetObjects.AddRange(objects);
+            if (objects != null)
+                _assetObjects.AddRange(objects);
         }
 
         public void AddNewElement()

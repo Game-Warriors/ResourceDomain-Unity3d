@@ -21,7 +21,8 @@ namespace GameWarriors.ResourceDomain.Editor
         public IntegerElement(IntVariable[] intVariables)
         {
             _intVariables = new List<IntVariable>();
-            _intVariables.AddRange(intVariables);
+            if (intVariables != null)
+                _intVariables.AddRange(intVariables);
         }
 
         public void AddNewElement()

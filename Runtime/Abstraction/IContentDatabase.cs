@@ -4,6 +4,9 @@ namespace GameWarriors.ResourceDomain.Abstraction
 {
     public enum EBundleType { Local, Remote };
 
+    /// <summary>
+    /// The base abstraction which presents content providing features like, downloading contents from remote, loading local or downloaded contents and unload, remove downloaded contents.
+    /// </summary>
     public interface IContentDatabase
     {
         int DownloadingCount { get; }

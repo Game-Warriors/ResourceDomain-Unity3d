@@ -40,12 +40,16 @@ namespace GameWarriors.ResourceDomain.Editor
             _tapContents = new string[] { "Unity Object", "String", "Float", "Integer", "Sprite" };
             _resourceElements = new IResourceTabElement[_tapContents.Length];
 
-
             ResourceData resourceAsset = AssetDatabase.LoadAssetAtPath<ResourceData>(ResourceData.ASSET_PATH);
             if (resourceAsset != null)
             {
                 _mainServerAddress = resourceAsset.MainServerAddess;
                 _testServerAddress = resourceAsset.TestServerAddess;
+            }
+            else
+            {
+                resourceAsset = CreateInstance<ResourceData>();
+                Debug.Log("Creating new instnace of resource data");
             }
             _resourceElements[0] = new ObjectElement(resourceAsset.AssetObjects);
             _resourceElements[1] = new StringElement(resourceAsset.StringVars);
