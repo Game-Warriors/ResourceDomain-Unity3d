@@ -1,3 +1,6 @@
+  version : 0.1.9
+  adding comments, summaries and descriptions on library classes and abstractions.
+
   version : 0.1.8
   fix editor creating base data bug and resource system loading data
 
