@@ -31,16 +31,16 @@ namespace GameWarriors.ResourceDomain.Editor
                 Directory.CreateDirectory("Assets/AssetData/Resources/");
 
             ResourceSystemMenu tmp = CreateInstance<ResourceSystemMenu>();
-            tmp.Initialization();
+            tmp.Initialization(ResourceData.ASSET_PATH);
             tmp.Show();
         }
 
-        private void Initialization()
+        public void Initialization(string assetPath)
         {
             _tapContents = new string[] { "Unity Object", "String", "Float", "Integer", "Sprite" };
             _resourceElements = new IResourceTabElement[_tapContents.Length];
 
-            ResourceData resourceAsset = AssetDatabase.LoadAssetAtPath<ResourceData>(ResourceData.ASSET_PATH);
+            ResourceData resourceAsset = AssetDatabase.LoadAssetAtPath<ResourceData>(assetPath);
             if (resourceAsset != null)
             {
                 _mainServerAddress = resourceAsset.MainServerAddess;

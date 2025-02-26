@@ -1,3 +1,6 @@
+  version : 0.2.0
+  improve editor tools to be compatible with multi asset data, by receiving input asset path in editor window class.
+  
   version : 0.1.9
   adding comments, summaries and descriptions on library classes and abstractions.
 
