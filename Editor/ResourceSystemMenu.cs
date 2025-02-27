@@ -1,9 +1,7 @@
 ﻿using GameWarriors.ResourceDomain.Data;
 using System.IO;
-using System.Resources;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace GameWarriors.ResourceDomain.Editor
 {
@@ -21,7 +19,7 @@ namespace GameWarriors.ResourceDomain.Editor
         private Vector2 scrollPosition;
         private int _drawCount;
         private IResourceTabElement[] _resourceElements;
-
+        private string _assetPath;
         private IResourceTabElement CurrentElement => _resourceElements?[_tapIndex];
 
         [MenuItem("Tools/Resource Configuration")]
@@ -37,6 +35,7 @@ namespace GameWarriors.ResourceDomain.Editor
 
         public void Initialization(string assetPath)
         {
+            _assetPath = assetPath;
             _tapContents = new string[] { "Unity Object", "String", "Float", "Integer", "Sprite" };
             _resourceElements = new IResourceTabElement[_tapContents.Length];
 
@@ -134,7 +133,7 @@ namespace GameWarriors.ResourceDomain.Editor
 
         private ResourceData Save()
         {
-            ResourceData resourceAsset = AssetDatabase.LoadAssetAtPath<ResourceData>(ResourceData.ASSET_PATH);
+            ResourceData resourceAsset = AssetDatabase.LoadAssetAtPath<ResourceData>(_assetPath);
             if (resourceAsset != null)
             {
                 resourceAsset.SetServerAddress(_mainServerAddress, _testServerAddress);
@@ -144,7 +143,7 @@ namespace GameWarriors.ResourceDomain.Editor
             {
                 resourceAsset = new ResourceData();
                 resourceAsset.SetServerAddress(_mainServerAddress, _testServerAddress);
-                AssetDatabase.CreateAsset(resourceAsset, ResourceData.ASSET_PATH);
+                AssetDatabase.CreateAsset(resourceAsset, _assetPath);
             }
             return resourceAsset;
         }
