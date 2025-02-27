@@ -1,3 +1,6 @@
+  version : 0.2.1
+  create resouce loader abstraction and use in resouce system to modularization and customizationable the loading resources.
+
   version : 0.2.0
   improve editor tools to be compatible with multi asset data, by receiving input asset path in editor window class.
   

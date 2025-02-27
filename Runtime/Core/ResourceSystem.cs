@@ -31,13 +31,14 @@ namespace GameWarriors.ResourceDomain.Core
 
 
         [UnityEngine.Scripting.Preserve]
-        public ResourceSystem(IRemoteDataHandler remoteDataHandler, IContentDownloder downloadContentHandler, IResourceConfig resourceConfig)
+        public ResourceSystem(IRemoteDataHandler remoteDataHandler, IContentDownloder downloadContentHandler, IResourceConfig resourceConfig, IResourceLoader resourceLoader)
         {
             _resourceConfig = resourceConfig;
             _downloadContent = downloadContentHandler;
             _remoteData = remoteDataHandler;
+            resourceLoader ??= new DefaultResourceLoader();
             LoadAssetBundles();
-            LoadResourceData();
+            LoadResourceData(resourceLoader);
         }
 
         public void DownloadStateCheck()
@@ -218,10 +219,8 @@ namespace GameWarriors.ResourceDomain.Core
             return false;
         }
 
-        private void OnPersistDataLoad(AsyncOperation operation)
+        private void OnPersistDataLoad(ResourceData data)
         {
-            ResourceRequest request = operation as ResourceRequest;
-            ResourceData data = request.asset as ResourceData;
 #if UNITY_EDITOR && DEVELOPMENT
             _downloadContent?.Initialization(data.TestServerAddess, data.IsAutoDonwload);
 #else
@@ -276,11 +275,10 @@ namespace GameWarriors.ResourceDomain.Core
             --_counter;
         }
 
-        private void LoadResourceData()
+        private void LoadResourceData(IResourceLoader resourceLoader)
         {
             ++_counter;
-            ResourceRequest request = Resources.LoadAsync<ResourceData>(ResourceData.RESOURCES_PATH);
-            request.completed += OnPersistDataLoad;
+            resourceLoader.LoadResourceAsync(OnPersistDataLoad);
         }
 
         private void LoadAssetBundles()
