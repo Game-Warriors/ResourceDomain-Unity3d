@@ -11,10 +11,10 @@ namespace ResourceDomain.Extension
                 if (resource.asset != null)
                     return resource.asset as T;
             }
-            if (operation is AssetBundleRequest bundleRequest)
-            {
-                return bundleRequest.asset as T;
-            }
+            //if (operation is AssetBundleRequest bundleRequest)
+            //{
+            //    return bundleRequest.asset as T;
+            //}
             return null;
         }
     }

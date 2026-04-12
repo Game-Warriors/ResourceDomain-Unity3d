@@ -65,34 +65,34 @@ namespace GameWarriors.ResourceDomain.Core
             }
         }
 
-        public bool RequestContentAsync(string bundleName, uint crc, Action<AssetBundle, string> onDone)
-        {
-            if (IsBundleComplete(bundleName))
-            {
-                string path = Save_Download_Path + bundleName + ".octet-stream";
-                AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(path, crc);
-                request.completed += (input) =>
-                {
-                    if (request.assetBundle != null)
-                    {
-                        onDone?.Invoke(request.assetBundle, bundleName);
-                    }
-                    else
-                    {
-                        File.Delete(path);
-                        PlayerPrefs.DeleteKey(bundleName);
-                        _downloadList.Insert(0, bundleName);
-                        onDone?.Invoke(null, bundleName);
-                    }
-                };
-                return true;
-            }
-            else
-            {
-                _downloadList.Add(bundleName);
-            }
-            return false;
-        }
+        //public bool RequestContentAsync(string bundleName, uint crc, Action<AssetBundle, string> onDone)
+        //{
+        //    if (IsBundleComplete(bundleName))
+        //    {
+        //        string path = Save_Download_Path + bundleName + ".octet-stream";
+        //        AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(path, crc);
+        //        request.completed += (input) =>
+        //        {
+        //            if (request.assetBundle != null)
+        //            {
+        //                onDone?.Invoke(request.assetBundle, bundleName);
+        //            }
+        //            else
+        //            {
+        //                File.Delete(path);
+        //                PlayerPrefs.DeleteKey(bundleName);
+        //                _downloadList.Insert(0, bundleName);
+        //                onDone?.Invoke(null, bundleName);
+        //            }
+        //        };
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        _downloadList.Add(bundleName);
+        //    }
+        //    return false;
+        //}
 
         private bool IsBundleComplete(string bundleName)
         {

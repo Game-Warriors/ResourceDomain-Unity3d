@@ -1,3 +1,6 @@
+  version : 0.2.2
+  remove assetbundle link and feature.
+
   version : 0.2.1
   create resouce loader abstraction and use in resouce system to modularization and customizationable the loading resources.
 

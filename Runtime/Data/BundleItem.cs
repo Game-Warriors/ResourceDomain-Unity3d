@@ -1,5 +1,4 @@
 using GameWarriors.ResourceDomain.Abstraction;
-using UnityEngine;
 
 namespace GameWarriors.ResourceDomain.Data
 {
@@ -9,8 +8,8 @@ namespace GameWarriors.ResourceDomain.Data
         public string Path { get; }
         public EBundleType BundleType { get; }
         public uint CRC { get; }
-        public AssetBundle Bundle { get; set; }
-        public bool IsBundleLoad => Bundle != null;
+        //public AssetBundle Bundle { get; set; }
+        public bool IsBundleLoad => false; //=> Bundle != null;
 
         public BundleItem(EBundleType bundleType, string path, uint crc)
         {

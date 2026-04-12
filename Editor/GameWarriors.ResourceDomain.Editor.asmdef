@@ -2,7 +2,7 @@
     "name": "GameWarriors.ResourceDomain.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:3f449ce30f6bcaf40b069b8265d4ee2a"
+        "GUID:f93a72ad3db17904c951a91a7661bef3"
     ],
     "includePlatforms": [
         "Editor"

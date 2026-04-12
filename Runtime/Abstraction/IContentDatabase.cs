@@ -15,7 +15,7 @@ namespace GameWarriors.ResourceDomain.Abstraction
         /// <summary>
         /// The count of current in progress download in download manager.
         /// </summary>
-        int DownloadingCount { get; }
+        //int DownloadingCount { get; }
         event Action<string> OnContentDownloadComplete;
         event Action<string> OnContentDownloadFailed;
 

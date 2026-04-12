@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace GameWarriors.ResourceDomain.Abstraction
 {
@@ -16,7 +15,7 @@ namespace GameWarriors.ResourceDomain.Abstraction
         bool IsContentExist(string bundleName);
         void Initialization(string mainServerAddress, bool isAutoDownload);
         void RegisterForCallbacks(Action<string> downloadComplete, Action<string> downloadStop);
-        bool RequestContentAsync(string bundleName, uint crc, Action<AssetBundle, string> onRemoteBundleLoadDone);
+        //bool RequestContentAsync(string bundleName, uint crc, Action<AssetBundle, string> onRemoteBundleLoadDone);
         void RemoveContext(string bundleName);
     }
 }
