@@ -34,6 +34,13 @@ namespace GameWarriors.ResourceDomain.Abstraction
         /// <param name="contentName">the name of object asset</param>
         /// <param name="onLoad">the call back will trigger when object loaded</param>
         void GetContentAsync<T>(string contentName, Action<T> onLoad) where T : UnityEngine.Object;
+        /// <summary>
+        /// This method asynchronously retrieves unity object in content container. Start searching for target object in exists assetbundles, if item doesn’t find then start searching in object which is in unity resources folder. the operation may be IO bound.
+        /// </summary>
+        /// <typeparam name="T">main type of unity object</typeparam>
+        /// <param name="contentName">the name of object asset</param>
+        /// <returns>the async loadig object</returns>
+        UnityEngine.AsyncOperation GetContentAsync(string contentName);
         float DownloadProgress(string bundleName);
         void ForceStartDownload(string bundleName, Action<bool> onStart);
         bool IsBundleDownloaded(string bundleName);

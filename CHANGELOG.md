@@ -1,3 +1,6 @@
+  version : 0.2.3
+  adding AsyncOperation GetContentAsync method in IContentDatabase
+
   version : 0.2.2
   remove assetbundle link and feature.
 

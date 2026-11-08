@@ -157,6 +157,11 @@ namespace GameWarriors.ResourceDomain.Core
             //}
         }
 
+        AsyncOperation IContentDatabase.GetContentAsync(string contentName)
+        {
+            return Resources.LoadAsync(contentName);
+        }
+
         void IContentDatabase.UnloadContent(string contentName, bool unloadAllObjects)
         {
             bool isUnload = TryUnloadAssetFromBundles(contentName, unloadAllObjects);
@@ -490,5 +495,7 @@ namespace GameWarriors.ResourceDomain.Core
             }
             return null;
         }
+
+
     }
 }
